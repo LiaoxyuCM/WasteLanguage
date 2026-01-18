@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>WasteIDE</title>
+<title>WasteIDE | ChenQingMua</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="icon.svg">
 <style>
@@ -62,6 +62,7 @@ pre.out{white-space:pre-wrap;word-break:break-all;margin:0}
     <textarea id="src" class="code" placeholder="https://github.com/ChenQingMua/WasteLanguage">#%@+%+%[[*+]][[+]].---[[+]]./*+.:,Hello World</textarea>
     <div class="btn-area">
       <button id="runBtn" class="btn">运行</button>
+      <button id="clBtn" class="btn">清除历史数据 "#&lt;"</button>
     </div>
   </div>
 </div>
@@ -76,36 +77,113 @@ pre.out{white-space:pre-wrap;word-break:break-all;margin:0}
 <div class="card">
   <div>
     <h2 class="name">代码手册</h2>
-    <p class="info"><strong>&#35;</strong> 初始化或重置指针为0。</p>
-    <p class="info"><strong>&#43;</strong> 指针自加1。</p>
-    <p class="info"><strong>&#45;</strong> 指针自减1。</p>
-    <p class="info"><strong>&#42;</strong> 指针自乘2。</p>
-    <p class="info"><strong>&#47;</strong> 指针自除2。</p>
-    <p class="info"><strong>&#37;</strong> 直接打印指针。</p>
-    <p class="info"><strong>&#46;</strong> 转成字符然后打印指针。</p>
-    <p class="info"><strong>&#58;</strong> 打印换行。</p>
-    <p class="info"><strong>&#63;</strong> 暂停代码1毫秒。</p>
-    <p class="info"><strong>&#33;</strong> 强制终止。</p>
-    <p class="info"><strong>&#64;</strong> 清空输出。</p>
-    <p class="info"><strong>&#44;</strong> 打印后面的代码且不再执行后面的代码。</p>
-    <p class="info"><strong>&#91;&#93;</strong> 里面的代码执行2次。</p>
-    <p class="info"><strong>&#40;&#41;</strong> 50%概率执行里面的代码。</p>
-    <p class="info"><strong>&#123;&#125;</strong> 里面为注释。</p>
-    <p class="info"><strong>&#60;</strong> 存档当前指针。</p>
-    <p class="info"><strong>&#62;</strong> 读取存档并赋值给当前指针。</p>
-    <p class="info"><strong>&#94;</strong> 设置指针为0或1。</p>
+    <table class="code-manual" border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>符号</th>
+          <th>功能说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>&#35;</strong></td>
+          <td>初始化或重置指针为0。</td>
+        </tr>
+        <tr>
+          <td><strong>&#43;</strong></td>
+          <td>指针自加1。</td>
+        </tr>
+        <tr>
+          <td><strong>&#45;</strong></td>
+          <td>指针自减1。</td>
+        </tr>
+        <tr>
+          <td><strong>&#42;</strong></td>
+          <td>指针自乘2。</td>
+        </tr>
+        <tr>
+          <td><strong>&#47;</strong></td>
+          <td>指针自除2。</td>
+        </tr>
+        <tr>
+          <td><strong>&#37;</strong></td>
+          <td>直接打印指针。</td>
+        </tr>
+        <tr>
+          <td><strong>&#46;</strong></td>
+          <td>转成字符然后打印指针。</td>
+        </tr>
+        <tr>
+          <td><strong>&#58;</strong></td>
+          <td>打印换行。</td>
+        </tr>
+        <tr>
+          <td><strong>&#63;</strong></td>
+          <td>暂停代码1毫秒。</td>
+        </tr>
+        <tr>
+          <td><strong>&#33;</strong></td>
+          <td>强制终止。</td>
+        </tr>
+        <tr>
+          <td><strong>&#64;</strong></td>
+          <td>清空输出。</td>
+        </tr>
+        <tr>
+          <td><strong>&#44;</strong></td>
+          <td>打印后面的代码且不再执行后面的代码。</td>
+        </tr>
+        <tr>
+          <td><strong>&#91;&#93;</strong></td>
+          <td>里面的代码执行2次。</td>
+        </tr>
+        <tr>
+          <td><strong>&#40;&#41;</strong></td>
+          <td>50%概率执行里面的代码。</td>
+        </tr>
+        <tr>
+          <td><strong>&#123;&#125;</strong></td>
+          <td>里面为注释。</td>
+        </tr>
+        <tr>
+          <td><strong>&#60;</strong></td>
+          <td>存档当前指针。</td>
+        </tr>
+        <tr>
+          <td><strong>&#62;</strong></td>
+          <td>读取存档并赋值给当前指针。</td>
+        </tr>
+        <tr>
+          <td><strong>&#94;</strong></td>
+          <td>设置指针为0或1。</td>
+        </tr>
+        <tr>
+          <td><strong>&#38;</strong></td>
+          <td>设置断点。</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 
 <script type="module">
-import { waste } from './waste.js';
+import { Waste } from './waste.js';
 
+const executor = new Waste();
 const src=document.getElementById('src'), out=document.getElementById('out');
 document.getElementById('runBtn').addEventListener('click', async ()=>{
   try{
     out.textContent='Running';
-    out.textContent=await waste(src.value);
+    out.textContent=await executor.waste(src.value);
+  }catch(e){
+    out.textContent=e.message;
+  }
+});
+document.getElementById('clBtn').addEventListener('click', async ()=>{
+  try{
+    executor.clearHistory();
+    out.textContent='已清除历史数据（相当于#&lt;）';
   }catch(e){
     out.textContent=e.message;
   }
