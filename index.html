@@ -175,7 +175,19 @@ const src=document.getElementById('src'), out=document.getElementById('out');
 document.getElementById('runBtn').addEventListener('click', async ()=>{
   try{
     out.textContent='Running';
-    out.textContent=await executor.waste(src.value);
+    let result=await executor.waste(src.value);
+    if (result!==undefined){
+            if (result.status === 0) {
+                out.textContent = result.output;
+                out.style.color = 'white';
+            } else if (result.status === 1) {
+                out.textContent = result.output;
+                out.style.color = 'orange';
+            } else {
+                out.textContent = result.message;
+                out.style.color = 'red';
+            }
+    }
   }catch(e){
     out.textContent=e.message;
   }
