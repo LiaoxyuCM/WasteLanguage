@@ -28,7 +28,7 @@ export class Waste {
                 case '&': case '＆': alert('Breakpoint'); break;
                 case '.': case '．': out += String.fromCharCode(ptr); break;
                 case ':': case '：': out += '\n'; break;
-                case '?': case '？': await new Promise(r => setTimeout(r, 1000)); break;
+                case '?': case '？': await new Promise(r => setTimeout(r, 1)); break;
                 case '!': case '！': return {status: 1, output: out}; break;
                 case '[': case '［': 
                     bracketStack.push({ type: ']', position: i, currranges: 0 });

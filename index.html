@@ -62,7 +62,7 @@ pre.out{white-space:pre-wrap;word-break:break-all;margin:0}
     <textarea id="src" class="code" placeholder="https://github.com/ChenQingMua/WasteLanguage">#%@+%+%[[*+]][[+]].---[[+]]./*+.:,Hello World</textarea>
     <div class="btn-area">
       <button id="runBtn" class="btn">运行</button>
-      <button id="clBtn" class="btn">清除历史数据 "#&lt;"</button>
+      <button id="clBtn" class="btn">清除历史数据</button>
     </div>
   </div>
 </div>
@@ -195,7 +195,7 @@ document.getElementById('runBtn').addEventListener('click', async ()=>{
 document.getElementById('clBtn').addEventListener('click', async ()=>{
   try{
     executor.clearHistory();
-    out.textContent='已清除历史数据（相当于#&lt;）';
+    out.textContent='已清除历史数据';
   }catch(e){
     out.textContent=e.message;
   }
